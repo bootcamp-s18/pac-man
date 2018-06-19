@@ -12,6 +12,9 @@ var tileSize = 20;
 
 var currentScore = 0;
 
+// Score if all pellets on board are eaten
+var allPellets = 12900;
+
 // Pipe entry and exit
 var pipeLeft = -7.5;
 var pipeRight = 567.5;
@@ -224,7 +227,7 @@ function handlePipe() {
 }
 
 function checkForWin() {
-  if (currentScore % 12900 == 0) {
+  if (currentScore % allPellets == 0) {
     resetGame();
   }
 }
@@ -523,9 +526,6 @@ function initialRender() {
     pac = new Pacman(13.5 * tileSize, 23.5 * tileSize, tileSize / 8, tileSize / 8, tileSize/2);
     blinky = new Ghost(12 * tileSize, 14 * tileSize);
 }
-
-
-
 
 function startGame() {
   initialRender();
