@@ -658,11 +658,12 @@ function animate() {
 
 function drawBit(bit, i, j) {
     if (i >= 0 && j >= 0) {
-        if (map.array[i][j] === pellet) {
+        if (map.array[i][j] == pellet) {
+            c.beginPath();
             c.rect(j * tileSize + (tileSize / 2.6), i * tileSize + (tileSize / 2.6), tileSize / 4, tileSize / 4);
             c.fillStyle = 'yellow';
             c.fill();
-            c.stroke();
+            // c.stroke();
         } else if (map.array[i][j] != space) {
             c.drawImage(tilemap, bit[0], bit[1], bit[2], bit[3], j * tileSize, i * tileSize, tileSize, tileSize);
         }
