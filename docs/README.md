@@ -97,7 +97,6 @@ The prefix ‘Pac’ generally refers to an element that references some aspect 
 
 The maze is generated using a tile system.  Any reference to “tile”, “map”, “render”, etc.. will be in reference to the construction of the maze itself.
 
-Tiles with ID 10 are tiles that contain pellets.  Tiles with ID 99 are empty spaces.
  
 “Now I am become Death, the destroyer of worlds”.
 ― the Bhagavad-Gita
