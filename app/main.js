@@ -17,8 +17,8 @@ var pipeLeft = -7.5;
 var pipeRight = 567.5;
 
 // Bit variables
-var pellet = [0,0,0,0];
-var space = [0,0,0,0];
+var pellet = 10;
+var space = 99;
 
 var eleven = [0,0,16,16];
 var twelve = [16,0,16,16];
@@ -65,42 +65,42 @@ var fiftysix = [16,80,16,16];
 var fiftyseven = [0,80,16,16];
 var fiftyeight = [0,64,16,16];
 
-//10 = Blank space or Path with pellets
+//pellet = Blank space or Path with pellets
 //11-18 outer walls and corners clockwise from top left corner
 //21-28 inner walls and corners clockwise from top left corner
 //51-58 ghost box and corners clockwise from top left corner
-//99 = blackspace
+//space = blackspace
 var initialMap = [
       [eleven,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,thirtyone,thirtytwo,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,thirteen],
-      [eighteen,10,10,10,10,10,10,10,10,10,10,10,10,twentyeight,twentyfour,10,10,10,10,10,10,10,10,10,10,10,10,fourteen],
-      [eighteen,10,twentyone,twentytwo,twentytwo,twentythree,10,twentyone,twentytwo,twentytwo,twentytwo,twentythree,10,twentyeight,twentyfour,10,twentyone,twentytwo,twentytwo,twentytwo,twentythree,10,twentyone,twentytwo,twentytwo,twentythree,10,fourteen],
-      [eighteen,10,twentyeight,99,99,twentyfour,10,twentyeight,99,99,99,twentyfour,10,twentyeight,twentyfour,10,twentyeight,99,99,99,twentyfour,10,twentyeight,99,99,twentyfour,10,fourteen],
-      [eighteen,10,twentyseven,twentysix,twentysix,twentyfive,10,twentyseven,twentysix,twentysix,twentysix,twentyfive,10,twentyseven,twentyfive,10,twentyseven,twentysix,twentysix,twentysix,twentyfive,10,twentyseven,twentysix,twentysix,twentyfive,10,fourteen],
-      [eighteen,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,fourteen],
-      [eighteen,10,twentyone,twentytwo,twentytwo,twentythree,10,twentyone,twentythree,10,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,10,twentyone,twentythree,10,twentyone,twentytwo,twentytwo,twentythree,10,fourteen],
-      [eighteen,10,twentyseven,twentysix,twentysix,twentyfive,10,twentyeight,twentyfour,10,twentyseven,twentysix,twentysix,thirtythree,thirtyfour,twentysix,twentysix,twentyfive,10,twentyeight,twentyfour,10,twentyseven,twentysix,twentysix,twentyfive,10,fourteen],
-      [eighteen,10,10,10,10,10,10,twentyeight,twentyfour,10,10,10,10,twentyeight,twentyfour,10,10,10,10,twentyeight,twentyfour,10,10,10,10,10,10,fourteen],
-      [seventeen,sixteen,sixteen,sixteen,sixteen,thirtyseven,10,twentyeight,thirtyfive,twentytwo,twentytwo,twentythree,99,twentyeight,twentyfour,99,twentyone,twentytwo,twentytwo,thirtysix,twentyfour,10,thirtynine,sixteen,sixteen,sixteen,sixteen,fifteen],
-      [99,99,99,99,99,eighteen,10,twentyeight,thirtyfour,twentysix,twentysix,twentyfive,99,twentyseven,twentyfive,99,twentyseven,twentysix,twentysix,thirtythree,twentyfour,10,fourteen,99,99,99,99,99],
-      [99,99,99,99,99,eighteen,10,twentyeight,twentyfour,99,99,99,99,99,99,99,99,99,99,twentyeight,twentyfour,10,fourteen,99,99,99,99,99],
-      [99,99,99,99,99,eighteen,10,twentyeight,twentyfour,99,fiftyone,fiftytwo,fiftytwo,fiftytwo,fiftytwo,fiftytwo,fiftytwo,fiftythree,99,twentyeight,twentyfour,10,fourteen,99,99,99,99,99],
-      [twelve,twelve,twelve,twelve,twelve,thirtyeight,10,twentyseven,twentyfive,99,fiftyeight,99,99,99,99,99,99,fiftyfour,99,twentyseven,twentyfive,10,forty,twelve,twelve,twelve,twelve,twelve,99,99,99,99],
-      [10,10,10,10,10,10,10,99,99,99,fiftyeight,99,99,99,99,99,99,fiftyfour,99,99,99,10,10,10,10,10,10,10,99,99,99,99],
-      [sixteen,sixteen,sixteen,sixteen,sixteen,thirtyseven,10,twentyone,twentythree,99,fiftyeight,99,99,99,99,99,99,fiftyfour,99,twentyone,twentythree,10,thirtynine,sixteen,sixteen,sixteen,sixteen,sixteen,99,99],
-      [99,99,99,99,99,eighteen,10,twentyeight,twentyfour,99,fiftyseven,fiftysix,fiftysix,fiftysix,fiftysix,fiftysix,fiftysix,55,99,twentyeight,twentyfour,10,fourteen,99,99,99,99,99],
-      [99,99,99,99,99,eighteen,10,twentyeight,twentyfour,99,99,99,99,99,99,99,99,99,99,twentyeight,twentyfour,10,fourteen,99,99,99,99,99],
-      [99,99,99,99,99,eighteen,10,twentyeight,twentyfour,99,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,99,twentyeight,twentyfour,10,fourteen,99,99,99,99,99],
-      [eleven,twelve,twelve,twelve,twelve,thirtyeight,10,twentyseven,twentyfive,99,twentyseven,twentysix,twentysix,thirtythree,thirtyfour,twentysix,twentysix,twentyfive,99,twentyseven,twentyfive,10,forty,twelve,twelve,twelve,twelve,thirteen],
-      [eighteen,10,10,10,10,10,10,10,10,10,10,10,10,twentyeight,twentyfour,10,10,10,10,10,10,10,10,10,10,10,10,fourteen],
-      [eighteen,10,twentyone,twentytwo,twentytwo,twentythree,10,twentyone,twentytwo,twentytwo,twentytwo,twentythree,10,twentyeight,twentyfour,10,twentyone,twentytwo,twentytwo,twentytwo,twentythree,10,twentyone,twentytwo,twentytwo,twentythree,10,fourteen],
-      [eighteen,10,twentyseven,twentysix,thirtythree,twentyfour,10,twentyseven,twentysix,twentysix,twentysix,twentyfive,10,twentyseven,twentyfive,10,twentyseven,twentysix,twentysix,twentysix,twentyfive,10,twentyeight,thirtyfour,twentysix,twentyfive,10,fourteen],
-      [eighteen,10,10,10,twentyeight,twentyfour,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,twentyeight,twentyfour,10,10,10,fourteen],
-      [fortyfour,twentytwo,twentythree,10,twentyeight,twentyfour,10,twentyone,twentythree,10,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,10,twentyone,twentythree,10,twentyeight,twentyfour,10,twentyone,twentytwo,fortysix],
-      [fortythree,twentysix,twentyfive,10,twentyseven,twentyfive,10,twentyeight,twentyfour,10,twentyseven,twentysix,twentysix,thirtythree,thirtyfour,twentysix,twentysix,twentyfive,10,twentyeight,twentyfour,10,twentyseven,twentyfive,10,twentyseven,twentysix,fortyfive],
-      [eighteen,10,10,10,10,10,10,twentyeight,twentyfour,10,10,10,10,twentyeight,twentyfour,10,10,10,10,twentyeight,twentyfour,10,10,10,10,10,10,fourteen],
-      [eighteen,10,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,thirtysix,thirtyfive,twentytwo,twentytwo,twentythree,10,twentyeight,twentyfour,10,twentyone,twentytwo,twentytwo,thirtysix,thirtyfive,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,10,fourteen],
-      [eighteen,10,twentyseven,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentyfive,10,twentyseven,twentyfive,10,twentyseven,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentyfive,10,fourteen],
-      [eighteen,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,fourteen],
+      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
+      [eighteen,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,fourteen],
+      [eighteen,pellet,twentyeight,space,space,twentyfour,pellet,twentyeight,space,space,space,twentyfour,pellet,twentyeight,twentyfour,pellet,twentyeight,space,space,space,twentyfour,pellet,twentyeight,space,space,twentyfour,pellet,fourteen],
+      [eighteen,pellet,twentyseven,twentysix,twentysix,twentyfive,pellet,twentyseven,twentysix,twentysix,twentysix,twentyfive,pellet,twentyseven,twentyfive,pellet,twentyseven,twentysix,twentysix,twentysix,twentyfive,pellet,twentyseven,twentysix,twentysix,twentyfive,pellet,fourteen],
+      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
+      [eighteen,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,twentyone,twentythree,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyone,twentythree,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,fourteen],
+      [eighteen,pellet,twentyseven,twentysix,twentysix,twentyfive,pellet,twentyeight,twentyfour,pellet,twentyseven,twentysix,twentysix,thirtythree,thirtyfour,twentysix,twentysix,twentyfive,pellet,twentyeight,twentyfour,pellet,twentyseven,twentysix,twentysix,twentyfive,pellet,fourteen],
+      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
+      [seventeen,sixteen,sixteen,sixteen,sixteen,thirtyseven,pellet,twentyeight,thirtyfive,twentytwo,twentytwo,twentythree,space,twentyeight,twentyfour,space,twentyone,twentytwo,twentytwo,thirtysix,twentyfour,pellet,thirtynine,sixteen,sixteen,sixteen,sixteen,fifteen],
+      [space,space,space,space,space,eighteen,pellet,twentyeight,thirtyfour,twentysix,twentysix,twentyfive,space,twentyseven,twentyfive,space,twentyseven,twentysix,twentysix,thirtythree,twentyfour,pellet,fourteen,space,space,space,space,space],
+      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,space,space,space,space,space,space,space,space,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
+      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,fiftyone,fiftytwo,fiftytwo,fiftytwo,fiftytwo,fiftytwo,fiftytwo,fiftythree,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
+      [twelve,twelve,twelve,twelve,twelve,thirtyeight,pellet,twentyseven,twentyfive,space,fiftyeight,space,space,space,space,space,space,fiftyfour,space,twentyseven,twentyfive,pellet,forty,twelve,twelve,twelve,twelve,twelve,space,space,space,space],
+      [pellet,pellet,pellet,pellet,pellet,pellet,pellet,space,space,space,fiftyeight,space,space,space,space,space,space,fiftyfour,space,space,space,pellet,pellet,pellet,pellet,pellet,pellet,pellet,space,space,space,space],
+      [sixteen,sixteen,sixteen,sixteen,sixteen,thirtyseven,pellet,twentyone,twentythree,space,fiftyeight,space,space,space,space,space,space,fiftyfour,space,twentyone,twentythree,pellet,thirtynine,sixteen,sixteen,sixteen,sixteen,sixteen,space,space],
+      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,fiftyseven,fiftysix,fiftysix,fiftysix,fiftysix,fiftysix,fiftysix,55,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
+      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,space,space,space,space,space,space,space,space,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
+      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
+      [eleven,twelve,twelve,twelve,twelve,thirtyeight,pellet,twentyseven,twentyfive,space,twentyseven,twentysix,twentysix,thirtythree,thirtyfour,twentysix,twentysix,twentyfive,space,twentyseven,twentyfive,pellet,forty,twelve,twelve,twelve,twelve,thirteen],
+      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
+      [eighteen,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,fourteen],
+      [eighteen,pellet,twentyseven,twentysix,thirtythree,twentyfour,pellet,twentyseven,twentysix,twentysix,twentysix,twentyfive,pellet,twentyseven,twentyfive,pellet,twentyseven,twentysix,twentysix,twentysix,twentyfive,pellet,twentyeight,thirtyfour,twentysix,twentyfive,pellet,fourteen],
+      [eighteen,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,fourteen],
+      [fortyfour,twentytwo,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentythree,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyone,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentytwo,fortysix],
+      [fortythree,twentysix,twentyfive,pellet,twentyseven,twentyfive,pellet,twentyeight,twentyfour,pellet,twentyseven,twentysix,twentysix,thirtythree,thirtyfour,twentysix,twentysix,twentyfive,pellet,twentyeight,twentyfour,pellet,twentyseven,twentyfive,pellet,twentyseven,twentysix,fortyfive],
+      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
+      [eighteen,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,thirtysix,thirtyfive,twentytwo,twentytwo,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentytwo,twentytwo,thirtysix,thirtyfive,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,pellet,fourteen],
+      [eighteen,pellet,twentyseven,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentyfive,pellet,twentyseven,twentyfive,pellet,twentyseven,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentyfive,pellet,fourteen],
+      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
       [seventeen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,fifteen]
     ];
 
@@ -126,7 +126,7 @@ var map = {
     var col = Math.floor(x / tileSize);
     var row = Math.floor(y / tileSize);
     var tile = this.array[row][col];
-    var isSolid = tile != 10 && tile != 99;
+    var isSolid = tile != pellet && tile != space;
     return isSolid;
   },
 
@@ -134,7 +134,7 @@ var map = {
     var col = Math.floor(x / tileSize);
     var row = Math.floor(y / tileSize);
     var tile = this.array[row][col];
-    var isPellet = tile == 10;
+    var isPellet = tile == pellet;
     return isPellet;
   }
 }
@@ -198,7 +198,7 @@ function scoreUpdate() {
     var tileInfo = map.getTileAtXY(pac.x, pac.y);
     var row = tileInfo[1];
     var col = tileInfo[2];
-    map.array[row][col] = 99;
+    map.array[row][col] = space;
     currentScore += 50;
     scoreText.innerHTML = "Score: " + currentScore;
   }
@@ -388,7 +388,7 @@ function Pacman(x, y, dx, dy, radius) {
     var oneMoreMove = true;
 
     if (directions[0] || directions[2]) {
-      if (map.array[this.nextPos[1]][this.nextPos[0]] != 10 && map.array[this.nextPos[1]][this.nextPos[0]] != 99) {
+      if (map.array[this.nextPos[1]][this.nextPos[0]] != pellet && map.array[this.nextPos[1]][this.nextPos[0]] != space) {
         if (directions[0]) {
           directions[0] = false;
         } else if (directions[2]) {
@@ -398,7 +398,7 @@ function Pacman(x, y, dx, dy, radius) {
       }
 
     } else if (directions[1] || directions[3]) {
-      if (map.array[this.nextPos[1]][this.nextPos[0]] != 10 && map.array[this.nextPos[1]][this.nextPos[0]] != 99) {
+      if (map.array[this.nextPos[1]][this.nextPos[0]] != pellet && map.array[this.nextPos[1]][this.nextPos[0]] != space) {
         if (directions[1]) {
           console.log(this.pacPos + ', ' + this.nextPos);
           console.log(map.array[this.nextPos[1]][this.nextPos[0]]);
@@ -433,7 +433,7 @@ function Pacman(x, y, dx, dy, radius) {
 
   this.checkMove = function(ar) {
     var check = false;
-    if (ar == 10 || ar == 99) {
+    if (ar == pellet || ar == space) {
       check = true;
     }
     return check;
@@ -444,13 +444,13 @@ function Pacman(x, y, dx, dy, radius) {
     this.pacPos[1] = this.getThisPos(this.y);
 
     // left up right down
-    if (directions[0] && (map.array[this.getThisPos(this.y)][this.getNextPos(this.x, -this.dx, -this.radius)] == 10 || map.array[this.getThisPos(this.y)][this.getNextPos(this.x, -this.dx, -this.radius)] == 99)) {
+    if (directions[0] && (map.array[this.getThisPos(this.y)][this.getNextPos(this.x, -this.dx, -this.radius)] == pellet || map.array[this.getThisPos(this.y)][this.getNextPos(this.x, -this.dx, -this.radius)] == space)) {
       this.nextPos[0] = this.getNextPos(this.x, -this.dx, -this.radius);
       this.nextPos[1] = this.getThisPos(this.y);
 
       this.x -= this.dx;
       this.y = this.nextPos[1] * tileSize + this.radius;
-    } else if (directions[1] && (map.array[this.getNextPos(this.y, -this.dy, -this.radius)][this.getThisPos(this.x)] == 10 || map.array[this.getNextPos(this.y, -this.dy, -this.radius)][this.getThisPos(this.x)] == 99)) {
+    } else if (directions[1] && (map.array[this.getNextPos(this.y, -this.dy, -this.radius)][this.getThisPos(this.x)] == pellet || map.array[this.getNextPos(this.y, -this.dy, -this.radius)][this.getThisPos(this.x)] == space)) {
       this.nextPos[1] = this.getNextPos(this.y, -this.dy, -this.radius);
       this.nextPos[0] = this.getThisPos(this.x);
       // console.log('nextPos ' + this.nextPos);
@@ -460,13 +460,13 @@ function Pacman(x, y, dx, dy, radius) {
       this.x = this.nextPos[0] * tileSize + this.radius;
       // console.log('y, x, ' + this.y + ', ' + this.x);
 
-    } else if (directions[2] && (map.array[this.getThisPos(this.y)][this.getNextPos(this.x, this.dx, this.radius)] == 10 || map.array[this.getThisPos(this.y)][this.getNextPos(this.x, this.dx, this.radius)] == 99)) {
+    } else if (directions[2] && (map.array[this.getThisPos(this.y)][this.getNextPos(this.x, this.dx, this.radius)] == pellet || map.array[this.getThisPos(this.y)][this.getNextPos(this.x, this.dx, this.radius)] == space)) {
       this.nextPos[0] = this.getNextPos(this.x, this.dx, this.radius);
       this.nextPos[1] = this.getThisPos(this.y);
 
       this.x += this.dx;
       this.y = this.nextPos[1] * tileSize + this.radius;
-    } else if (directions[3] && (map.array[this.getNextPos(this.y, this.dy, this.radius)][this.getThisPos(this.x)] == 10 || map.array[this.getNextPos(this.y, this.dy, this.radius)][this.getThisPos(this.x)] == 99)) {
+    } else if (directions[3] && (map.array[this.getNextPos(this.y, this.dy, this.radius)][this.getThisPos(this.x)] == pellet || map.array[this.getNextPos(this.y, this.dy, this.radius)][this.getThisPos(this.x)] == space)) {
       this.nextPos[1] = this.getNextPos(this.y, this.dy, this.radius);
       this.nextPos[0] = this.getThisPos(this.x);
 
@@ -502,13 +502,13 @@ function animate() {
 
 function drawBit(bit,i,j) {
     if(i >= 0 && j >= 0) {
-        if (map.array[i][j] === 10) {
+        if (map.array[i][j] === pellet) {
             c.rect(j*tileSize+(tileSize/2.6), i*tileSize+(tileSize/2.6), tileSize/4, tileSize/4);
             c.fillStyle = 'yellow';
             c.fill();
             c.stroke();
         }
-        else {
+        else if (map.array[i][j] != space) {
             c.drawImage(tilemap, bit[0], bit[1], bit[2], bit[3], j*tileSize, i*tileSize, tileSize, tileSize);
         }
     }
