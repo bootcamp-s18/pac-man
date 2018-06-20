@@ -8,6 +8,10 @@ var tilemap = document.getElementById('tilemap');
 
 var sprites = document.getElementById('sprites');
 
+var pacWin = document.getElementById('pacWin');
+
+var youWin = document.getElementById('youWin');
+
 var startScreen = document.getElementById('start-screen');
 
 var tileSize = 20;
@@ -23,14 +27,14 @@ var lives = 3;
 // Score if all pellets on board are eaten
 var allPellets = 12900;
 
-var winner = [];
-
 // Pipe entry and exit
 var pipeLeft = -7.5;
 var pipeRight = 567.5;
 
 // Sprite variables
-var gameOver = [10, 190, 85, 15, 80, 225, 400, 200];
+var gameOver = [sprites, 10, 190, 85, 15, 80, 225, 400, 200];
+var drawPacWin = [pacWin, 0, 0, 640, 653, 100, 275, 320, 326];
+var drawYouWin = [youWin, 100, 50, 280, 225, 80, 50, 400, 200];
 
 // Bit variables
 var pellet = 10;
@@ -239,20 +243,21 @@ function handlePipe() {
 }
 
 function drawMessage(message) {
-    c.drawImage(sprites, message[0], message[1], message[2], message[3], message[4], message[5], message[6], message[7]);
+    c.drawImage(message[0], message[1], message[2], message[3], message[4], message[5], message[6], message[7], message[8]);
 }
 
 function checkForWin() {
     if (currentScore % allPellets == 0) {
         resetGame();
-        drawMessage(winner);
+        drawMessage(drawYouWin);
+        drawMessage(drawPacWin);
     }
 }
 
 function checkForLoss() {
     if (lives == 0) {
         resetGame();
-        drawMessage(gameOver);
+        drawMessage(youWin);
     }
 }
 
