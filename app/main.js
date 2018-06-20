@@ -223,9 +223,16 @@ function checkGhostCollision() {
     var blinkyTile = map.getTileAtXY(blinky.x, blinky.y);
 
     if (pacTile[1] == blinkyTile[1] && pacTile[2] == blinkyTile[2]) {
-        console.log("YOU DEAD!");
+        deathReset();
     }
+}
 
+function deathReset() {
+    c.clearRect((pac.pacPos[0] - 1) * tileSize, (pac.pacPos[1] - 1) * tileSize, 3 * tileSize, 3 * tileSize);
+    c.clearRect((blinky.ghostPos[0] - 1) * tileSize, (blinky.ghostPos[1] - 1) * tileSize, 3 * tileSize, 3 * tileSize);
+
+    pac = new Pacman(13.5 * tileSize, 23.5 * tileSize, tileSize / 8, tileSize / 8, tileSize / 2);
+    blinky = new Ghost(12 * tileSize, 11 * tileSize, tileSize / 16, tileSize / 16);
 }
 
 function handlePipe() {
