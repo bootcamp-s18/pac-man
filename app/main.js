@@ -8,11 +8,18 @@ var tilemap = document.getElementById('tilemap');
 
 var sprites = document.getElementById('sprites');
 
+var pacWin = document.getElementById('pacWin');
+
+var youWin = document.getElementById('youWin');
+
 var startScreen = document.getElementById('start-screen');
 
 var tileSize = 20;
 
 var currentScore = 0;
+
+// Variable to pause game on win or loss
+var run = true;
 
 // aStar values
 var aStarCt = Math.round(tileSize / 2);
@@ -28,7 +35,9 @@ var pipeLeft = -7.5;
 var pipeRight = 567.5;
 
 // Sprite variables
-var gameOver = [10, 190, 85, 15, 80, 225, 400, 200];
+var gameOver = [sprites, 10, 190, 85, 15, 80, 225, 400, 200];
+var drawPacWin = [pacWin, 0, 0, 640, 653, 100, 275, 320, 326];
+var drawYouWin = [youWin, 100, 50, 280, 225, 80, 50, 400, 200];
 
 // Bit variables
 var pellet = 10;
@@ -85,37 +94,37 @@ var fiftyeight = [0, 64, 16, 16];
 //51-58 ghost box and corners clockwise from top left corner
 //space = blackspace
 var initialMap = [
-      [eleven,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,thirtyone,thirtytwo,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,twelve,thirteen],
-      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
-      [eighteen,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,fourteen],
-      [eighteen,pellet,twentyeight,space,space,twentyfour,pellet,twentyeight,space,space,space,twentyfour,pellet,twentyeight,twentyfour,pellet,twentyeight,space,space,space,twentyfour,pellet,twentyeight,space,space,twentyfour,pellet,fourteen],
-      [eighteen,pellet,twentyseven,twentysix,twentysix,twentyfive,pellet,twentyseven,twentysix,twentysix,twentysix,twentyfive,pellet,twentyseven,twentyfive,pellet,twentyseven,twentysix,twentysix,twentysix,twentyfive,pellet,twentyseven,twentysix,twentysix,twentyfive,pellet,fourteen],
-      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
-      [eighteen,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,twentyone,twentythree,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyone,twentythree,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,fourteen],
-      [eighteen,pellet,twentyseven,twentysix,twentysix,twentyfive,pellet,twentyeight,twentyfour,pellet,twentyseven,twentysix,twentysix,thirtythree,thirtyfour,twentysix,twentysix,twentyfive,pellet,twentyeight,twentyfour,pellet,twentyseven,twentysix,twentysix,twentyfive,pellet,fourteen],
-      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
-      [seventeen,sixteen,sixteen,sixteen,sixteen,thirtyseven,pellet,twentyeight,thirtyfive,twentytwo,twentytwo,twentythree,space,twentyeight,twentyfour,space,twentyone,twentytwo,twentytwo,thirtysix,twentyfour,pellet,thirtynine,sixteen,sixteen,sixteen,sixteen,fifteen],
-      [space,space,space,space,space,eighteen,pellet,twentyeight,thirtyfour,twentysix,twentysix,twentyfive,space,twentyseven,twentyfive,space,twentyseven,twentysix,twentysix,thirtythree,twentyfour,pellet,fourteen,space,space,space,space,space],
-      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,space,space,space,space,space,space,space,space,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
-      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,fiftyone,fiftytwo,fiftytwo,fiftytwo,fiftytwo,fiftytwo,fiftytwo,fiftythree,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
-      [twelve,twelve,twelve,twelve,twelve,thirtyeight,pellet,twentyseven,twentyfive,space,fiftyeight,space,space,space,space,space,space,fiftyfour,space,twentyseven,twentyfive,pellet,forty,twelve,twelve,twelve,twelve,twelve,space,space,space,space],
-      [pellet,pellet,pellet,pellet,pellet,pellet,pellet,space,space,space,fiftyeight,space,space,space,space,space,space,fiftyfour,space,space,space,pellet,pellet,pellet,pellet,pellet,pellet,pellet,space,space,space,space],
-      [sixteen,sixteen,sixteen,sixteen,sixteen,thirtyseven,pellet,twentyone,twentythree,space,fiftyeight,space,space,space,space,space,space,fiftyfour,space,twentyone,twentythree,pellet,thirtynine,sixteen,sixteen,sixteen,sixteen,sixteen,space,space],
-      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,fiftyseven,fiftysix,fiftysix,fiftysix,fiftysix,fiftysix,fiftysix,fiftyfive,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
-      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,space,space,space,space,space,space,space,space,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
-      [space,space,space,space,space,eighteen,pellet,twentyeight,twentyfour,space,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,space,twentyeight,twentyfour,pellet,fourteen,space,space,space,space,space],
-      [eleven,twelve,twelve,twelve,twelve,thirtyeight,pellet,twentyseven,twentyfive,space,twentyseven,twentysix,twentysix,thirtythree,thirtyfour,twentysix,twentysix,twentyfive,space,twentyseven,twentyfive,pellet,forty,twelve,twelve,twelve,twelve,thirteen],
-      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
-      [eighteen,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyone,twentytwo,twentytwo,twentythree,pellet,fourteen],
-      [eighteen,pellet,twentyseven,twentysix,thirtythree,twentyfour,pellet,twentyseven,twentysix,twentysix,twentysix,twentyfive,pellet,twentyseven,twentyfive,pellet,twentyseven,twentysix,twentysix,twentysix,twentyfive,pellet,twentyeight,thirtyfour,twentysix,twentyfive,pellet,fourteen],
-      [eighteen,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,fourteen],
-      [fortyfour,twentytwo,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentythree,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,pellet,twentyone,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentytwo,fortysix],
-      [fortythree,twentysix,twentyfive,pellet,twentyseven,twentyfive,pellet,twentyeight,twentyfour,pellet,twentyseven,twentysix,twentysix,thirtythree,thirtyfour,twentysix,twentysix,twentyfive,pellet,twentyeight,twentyfour,pellet,twentyseven,twentyfive,pellet,twentyseven,twentysix,fortyfive],
-      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,twentyeight,twentyfour,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
-      [eighteen,pellet,twentyone,twentytwo,twentytwo,twentytwo,twentytwo,thirtysix,thirtyfive,twentytwo,twentytwo,twentythree,pellet,twentyeight,twentyfour,pellet,twentyone,twentytwo,twentytwo,thirtysix,thirtyfive,twentytwo,twentytwo,twentytwo,twentytwo,twentythree,pellet,fourteen],
-      [eighteen,pellet,twentyseven,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentyfive,pellet,twentyseven,twentyfive,pellet,twentyseven,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentysix,twentyfive,pellet,fourteen],
-      [eighteen,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,pellet,fourteen],
-      [seventeen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,sixteen,fifteen]
+      [eleven, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, thirtyone, thirtytwo, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, twelve, thirteen],
+      [eighteen, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, fourteen],
+      [eighteen, pellet, twentyone, twentytwo, twentytwo, twentythree, pellet, twentyone, twentytwo, twentytwo, twentytwo, twentythree, pellet, twentyeight, twentyfour, pellet, twentyone, twentytwo, twentytwo, twentytwo, twentythree, pellet, twentyone, twentytwo, twentytwo, twentythree, pellet, fourteen],
+      [eighteen, pellet, twentyeight, space, space, twentyfour, pellet, twentyeight, space, space, space, twentyfour, pellet, twentyeight, twentyfour, pellet, twentyeight, space, space, space, twentyfour, pellet, twentyeight, space, space, twentyfour, pellet, fourteen],
+      [eighteen, pellet, twentyseven, twentysix, twentysix, twentyfive, pellet, twentyseven, twentysix, twentysix, twentysix, twentyfive, pellet, twentyseven, twentyfive, pellet, twentyseven, twentysix, twentysix, twentysix, twentyfive, pellet, twentyseven, twentysix, twentysix, twentyfive, pellet, fourteen],
+      [eighteen, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, fourteen],
+      [eighteen, pellet, twentyone, twentytwo, twentytwo, twentythree, pellet, twentyone, twentythree, pellet, twentyone, twentytwo, twentytwo, twentytwo, twentytwo, twentytwo, twentytwo, twentythree, pellet, twentyone, twentythree, pellet, twentyone, twentytwo, twentytwo, twentythree, pellet, fourteen],
+      [eighteen, pellet, twentyseven, twentysix, twentysix, twentyfive, pellet, twentyeight, twentyfour, pellet, twentyseven, twentysix, twentysix, thirtythree, thirtyfour, twentysix, twentysix, twentyfive, pellet, twentyeight, twentyfour, pellet, twentyseven, twentysix, twentysix, twentyfive, pellet, fourteen],
+      [eighteen, pellet, pellet, pellet, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, pellet, pellet, pellet, fourteen],
+      [seventeen, sixteen, sixteen, sixteen, sixteen, thirtyseven, pellet, twentyeight, thirtyfive, twentytwo, twentytwo, twentythree, space, twentyeight, twentyfour, space, twentyone, twentytwo, twentytwo, thirtysix, twentyfour, pellet, thirtynine, sixteen, sixteen, sixteen, sixteen, fifteen],
+      [space, space, space, space, space, eighteen, pellet, twentyeight, thirtyfour, twentysix, twentysix, twentyfive, space, twentyseven, twentyfive, space, twentyseven, twentysix, twentysix, thirtythree, twentyfour, pellet, fourteen, space, space, space, space, space],
+      [space, space, space, space, space, eighteen, pellet, twentyeight, twentyfour, space, space, space, space, space, space, space, space, space, space, twentyeight, twentyfour, pellet, fourteen, space, space, space, space, space],
+      [space, space, space, space, space, eighteen, pellet, twentyeight, twentyfour, space, fiftyone, fiftytwo, fiftytwo, fiftytwo, fiftytwo, fiftytwo, fiftytwo, fiftythree, space, twentyeight, twentyfour, pellet, fourteen, space, space, space, space, space],
+      [twelve, twelve, twelve, twelve, twelve, thirtyeight, pellet, twentyseven, twentyfive, space, fiftyeight, space, space, space, space, space, space, fiftyfour, space, twentyseven, twentyfive, pellet, forty, twelve, twelve, twelve, twelve, twelve, space, space, space, space],
+      [pellet, pellet, pellet, pellet, pellet, pellet, pellet, space, space, space, fiftyeight, space, space, space, space, space, space, fiftyfour, space, space, space, pellet, pellet, pellet, pellet, pellet, pellet, pellet, space, space, space, space],
+      [sixteen, sixteen, sixteen, sixteen, sixteen, thirtyseven, pellet, twentyone, twentythree, space, fiftyeight, space, space, space, space, space, space, fiftyfour, space, twentyone, twentythree, pellet, thirtynine, sixteen, sixteen, sixteen, sixteen, sixteen, space, space],
+      [space, space, space, space, space, eighteen, pellet, twentyeight, twentyfour, space, fiftyseven, fiftysix, fiftysix, fiftysix, fiftysix, fiftysix, fiftysix, fiftyfive, space, twentyeight, twentyfour, pellet, fourteen, space, space, space, space, space],
+      [space, space, space, space, space, eighteen, pellet, twentyeight, twentyfour, space, space, space, space, space, space, space, space, space, space, twentyeight, twentyfour, pellet, fourteen, space, space, space, space, space],
+      [space, space, space, space, space, eighteen, pellet, twentyeight, twentyfour, space, twentyone, twentytwo, twentytwo, twentytwo, twentytwo, twentytwo, twentytwo, twentythree, space, twentyeight, twentyfour, pellet, fourteen, space, space, space, space, space],
+      [eleven, twelve, twelve, twelve, twelve, thirtyeight, pellet, twentyseven, twentyfive, space, twentyseven, twentysix, twentysix, thirtythree, thirtyfour, twentysix, twentysix, twentyfive, space, twentyseven, twentyfive, pellet, forty, twelve, twelve, twelve, twelve, thirteen],
+      [eighteen, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, fourteen],
+      [eighteen, pellet, twentyone, twentytwo, twentytwo, twentythree, pellet, twentyone, twentytwo, twentytwo, twentytwo, twentythree, pellet, twentyeight, twentyfour, pellet, twentyone, twentytwo, twentytwo, twentytwo, twentythree, pellet, twentyone, twentytwo, twentytwo, twentythree, pellet, fourteen],
+      [eighteen, pellet, twentyseven, twentysix, thirtythree, twentyfour, pellet, twentyseven, twentysix, twentysix, twentysix, twentyfive, pellet, twentyseven, twentyfive, pellet, twentyseven, twentysix, twentysix, twentysix, twentyfive, pellet, twentyeight, thirtyfour, twentysix, twentyfive, pellet, fourteen],
+      [eighteen, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, fourteen],
+      [fortyfour, twentytwo, twentythree, pellet, twentyeight, twentyfour, pellet, twentyone, twentythree, pellet, twentyone, twentytwo, twentytwo, twentytwo, twentytwo, twentytwo, twentytwo, twentythree, pellet, twentyone, twentythree, pellet, twentyeight, twentyfour, pellet, twentyone, twentytwo, fortysix],
+      [fortythree, twentysix, twentyfive, pellet, twentyseven, twentyfive, pellet, twentyeight, twentyfour, pellet, twentyseven, twentysix, twentysix, thirtythree, thirtyfour, twentysix, twentysix, twentyfive, pellet, twentyeight, twentyfour, pellet, twentyseven, twentyfive, pellet, twentyseven, twentysix, fortyfive],
+      [eighteen, pellet, pellet, pellet, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, pellet, twentyeight, twentyfour, pellet, pellet, pellet, pellet, pellet, pellet, fourteen],
+      [eighteen, pellet, twentyone, twentytwo, twentytwo, twentytwo, twentytwo, thirtysix, thirtyfive, twentytwo, twentytwo, twentythree, pellet, twentyeight, twentyfour, pellet, twentyone, twentytwo, twentytwo, thirtysix, thirtyfive, twentytwo, twentytwo, twentytwo, twentytwo, twentythree, pellet, fourteen],
+      [eighteen, pellet, twentyseven, twentysix, twentysix, twentysix, twentysix, twentysix, twentysix, twentysix, twentysix, twentyfive, pellet, twentyseven, twentyfive, pellet, twentyseven, twentysix, twentysix, twentysix, twentysix, twentysix, twentysix, twentysix, twentysix, twentyfive, pellet, fourteen],
+      [eighteen, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, pellet, fourteen],
+      [seventeen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, sixteen, fifteen]
     ];
 
 var map = {
@@ -248,19 +257,21 @@ function handlePipe() {
 }
 
 function drawMessage(message) {
-    c.drawImage(sprites, message[0], message[1], message[2], message[3], message[4], message[5], message[6], message[7]);
+    c.drawImage(message[0], message[1], message[2], message[3], message[4], message[5], message[6], message[7], message[8]);
 }
 
 function checkForWin() {
-    if (currentScore % allPellets == 0) {
+    if (currentScore % allPellets === 0) {
         resetGame();
+        drawMessage(drawYouWin);
+        drawMessage(drawPacWin);
     }
 }
 
 function checkForLoss() {
     if (lives == 0) {
         resetGame();
-        drawMessage(gameOver);
+        drawMessage(youWin);
     }
 }
 
@@ -269,6 +280,7 @@ function resetGame() {
     map.array = JSON.parse(JSON.stringify(initialMap));
     c.clearRect(0, 0, canvas.width, canvas.height);
     initialRender();
+    run = false;
 
 }
 
@@ -661,23 +673,27 @@ function Pacman(x, y, dx, dy, radius) {
 }
 
 function animate() {
-    requestAnimationFrame(animate);
+    if (run == true) {
+        requestAnimationFrame(animate);
+    }
     //Fixed this by changing the parameters to be pacman specific
     //No longer needs to redraw the whole map.
 
     // Trying to make the 9 squares around Pacman (but still in the grid) dissapear instead of the ones not part of the grid.
     resetBit();
 
-    pac.update();
-    blinky.update(aStarCt);
-    if (aStarCt == Math.round(tileSize / 2)) {
-        aStarCt = 0;
-    } else {
-        aStarCt++;
+        pac.update();
+        blinky.update(aStarCt);
+        if (aStarCt == Math.round(tileSize / 2)) {
+            aStarCt = 0;
+        } else {
+            aStarCt++;
+        }
+        gameLogicUpdate();
+        checkGhostCollision();
+        checkForLoss();
+        checkForWin();
     }
-    gameLogicUpdate();
-    checkGhostCollision();
-    checkForLoss();
 }
 
 function resetBit() {
