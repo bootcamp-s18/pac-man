@@ -264,6 +264,10 @@ function checkForLoss() {
     }
 }
 
+function livesDisplay() {
+    
+}
+
 function resetGame() {
 
     map.array = JSON.parse(JSON.stringify(initialMap));
