@@ -232,9 +232,20 @@ function checkGhostCollision() {
     var blinkyTile = map.getTileAtXY(blinky.x, blinky.y);
 
     if (pacTile[1] == blinkyTile[1] && pacTile[2] == blinkyTile[2]) {
-        console.log("YOU DEAD!");
+        deathReset();
     }
+}
 
+function deathReset() {
+    c.clearRect((pac.pacPos[0] - 1) * tileSize, (pac.pacPos[1] - 1) * tileSize, 3 * tileSize, 3 * tileSize);
+    c.clearRect((blinky.ghostPos[0] - 1) * tileSize, (blinky.ghostPos[1] - 1) * tileSize, 3 * tileSize, 3 * tileSize);
+
+    resetBit();
+
+    pac = new Pacman(13.5 * tileSize, 23.5 * tileSize, tileSize / 8, tileSize / 8, tileSize / 2);
+    blinky = new Ghost(12 * tileSize, 11 * tileSize, tileSize / 16, tileSize / 16);
+
+    lives--;
 }
 
 function handlePipe() {
@@ -260,7 +271,7 @@ function checkForWin() {
 function checkForLoss() {
     if (lives == 0) {
         resetGame();
-        drawMessage(youWin);
+        drawMessage(gameOver);
     }
 }
 
@@ -669,14 +680,7 @@ function animate() {
         //No longer needs to redraw the whole map.
 
         // Trying to make the 9 squares around Pacman (but still in the grid) dissapear instead of the ones not part of the grid.
-        c.clearRect((pac.pacPos[0] - 1) * tileSize, (pac.pacPos[1] - 1) * tileSize, 3 * tileSize, 3 * tileSize);
-        c.clearRect((blinky.ghostPos[0] - 1) * tileSize, (blinky.ghostPos[1] - 1) * tileSize, 3 * tileSize, 3 * tileSize);
-        for (var n = -1; n < 2; n++) {
-            for (var m = -1; m < 2; m++) {
-                drawBit(map.array[pac.pacPos[1] + n][pac.pacPos[0] + m], pac.pacPos[1] + n, pac.pacPos[0] + m);
-                drawBit(map.array[blinky.ghostPos[1] + n][blinky.ghostPos[0] + m], blinky.ghostPos[1] + n, blinky.ghostPos[0] + m);
-            }
-        }
+        resetBit();
 
         pac.update();
         blinky.update(aStarCt);
@@ -689,6 +693,17 @@ function animate() {
         checkGhostCollision();
         checkForLoss();
         checkForWin();
+    }
+}
+
+function resetBit() {
+    c.clearRect((pac.pacPos[0] - 1) * tileSize, (pac.pacPos[1] - 1) * tileSize, 3 * tileSize, 3 * tileSize);
+    c.clearRect((blinky.ghostPos[0] - 1) * tileSize, (blinky.ghostPos[1] - 1) * tileSize, 3 * tileSize, 3 * tileSize);
+    for (var n = -1; n < 2; n++) {
+        for (var m = -1; m < 2; m++) {
+            drawBit(map.array[pac.pacPos[1] + n][pac.pacPos[0] + m], pac.pacPos[1] + n, pac.pacPos[0] + m);
+            drawBit(map.array[blinky.ghostPos[1] + n][blinky.ghostPos[0] + m], blinky.ghostPos[1] + n, blinky.ghostPos[0] + m);
+        }
     }
 }
 
