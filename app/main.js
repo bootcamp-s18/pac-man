@@ -4,7 +4,8 @@ var scoreText = document.getElementById('score-text');
 
 var canvas = document.querySelector('canvas');
 
-var tilemap = document.getElementById('tilemap');
+var tilemap = new Image();
+tilemap.src = "media/tilemap.png";
 
 var startScreen = document.getElementById('start-screen');
 
@@ -172,7 +173,8 @@ document.onreadystatechange = function() {
         window.addEventListener('keydown', arrowKeysLogic);
     }
     if (document.readyState == "complete") {
-        document.getElementById("slider").classList.remove('bottom');
+      startGame();
+        // document.getElementById("slider").classList.remove('bottom');
     }
 }
 
@@ -683,5 +685,5 @@ function initialRender() {
 function startGame() {
     initialRender();
     animate();
-    startScreen.style.display = "none";
+    // startScreen.style.display = "none";
 }
