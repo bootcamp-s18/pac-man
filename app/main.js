@@ -6,6 +6,8 @@ var canvas = document.querySelector('canvas');
 
 var tilemap = document.getElementById('tilemap');
 
+var sprites = document.getElementById('sprites');
+
 var startScreen = document.getElementById('start-screen');
 
 var tileSize = 20;
@@ -15,12 +17,18 @@ var currentScore = 0;
 // aStar values
 var aStarCt = Math.round(tileSize / 2);
 
+// Lives left
+var lives = 3;
+
 // Score if all pellets on board are eaten
 var allPellets = 12900;
 
 // Pipe entry and exit
 var pipeLeft = -7.5;
 var pipeRight = 567.5;
+
+// Sprite variables
+
 
 // Bit variables
 var pellet = 10;
@@ -231,6 +239,13 @@ function handlePipe() {
 function checkForWin() {
     if (currentScore % allPellets == 0) {
         resetGame();
+    }
+}
+
+function checkForLoss() {
+    if (lives == 0) {
+        resetGame();
+
     }
 }
 
