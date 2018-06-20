@@ -18,7 +18,7 @@ var currentScore = 0;
 var aStarCt = Math.round(tileSize / 2);
 
 // Lives left
-var lives = 0;
+var lives = 3;
 
 // Score if all pellets on board are eaten
 var allPellets = 12900;
@@ -673,6 +673,7 @@ function animate() {
     }
     gameLogicUpdate();
     checkGhostCollision();
+    checkForLoss();
 }
 
 function drawBit(bit, i, j) {
@@ -703,5 +704,4 @@ function startGame() {
     initialRender();
     animate();
     startScreen.style.display = "none";
-    setTimeout(checkForLoss(),10000);
 }
