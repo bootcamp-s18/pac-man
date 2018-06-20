@@ -38,6 +38,7 @@ var pipeRight = 567.5;
 var gameOver = [sprites, 10, 190, 85, 15, 80, 225, 400, 200];
 var drawPacWin = [pacWin, 0, 0, 640, 653, 100, 275, 320, 326];
 var drawYouWin = [youWin, 100, 50, 280, 225, 80, 50, 400, 200];
+var pacLife = [sprites, 275, 40, 45, 40, 10, 218, 30, 30];
 
 // Bit variables
 var pellet = 10;
@@ -273,6 +274,14 @@ function checkForLoss() {
         resetGame();
         drawMessage(gameOver);
     }
+}
+
+function livesDisplay() {
+    for (var i = 1; i < lives+1; i++) {
+        drawMessage(pacLife);
+        pacLife[5] += 30;
+    }
+    pacLife[5] = 10;
 }
 
 function resetGame() {
@@ -689,6 +698,7 @@ function animate() {
         } else {
             aStarCt++;
         }
+        livesDisplay();
         gameLogicUpdate();
         checkGhostCollision();
         checkForLoss();
