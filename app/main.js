@@ -271,7 +271,7 @@ function checkForWin() {
 function checkForLoss() {
     if (lives == 0) {
         resetGame();
-        drawMessage(youWin);
+        drawMessage(gameOver);
     }
 }
 
@@ -675,12 +675,12 @@ function Pacman(x, y, dx, dy, radius) {
 function animate() {
     if (run == true) {
         requestAnimationFrame(animate);
-    }
-    //Fixed this by changing the parameters to be pacman specific
-    //No longer needs to redraw the whole map.
 
-    // Trying to make the 9 squares around Pacman (but still in the grid) dissapear instead of the ones not part of the grid.
-    resetBit();
+        //Fixed this by changing the parameters to be pacman specific
+        //No longer needs to redraw the whole map.
+
+        // Trying to make the 9 squares around Pacman (but still in the grid) dissapear instead of the ones not part of the grid.
+        resetBit();
 
         pac.update();
         blinky.update(aStarCt);
