@@ -18,6 +18,8 @@ var aStarCt = Math.round(tileSize / 2);
 // Score if all pellets on board are eaten
 var allPellets = 12900;
 
+var winner = [];
+
 // Pipe entry and exit
 var pipeLeft = -7.5;
 var pipeRight = 567.5;
@@ -231,6 +233,7 @@ function handlePipe() {
 function checkForWin() {
     if (currentScore % allPellets == 0) {
         resetGame();
+        drawMessage(winner);
     }
 }
 
