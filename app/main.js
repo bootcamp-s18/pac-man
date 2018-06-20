@@ -270,7 +270,7 @@ function livesDisplay() {
         drawMessage(pacLife);
         pacLife[5] += 30;
     }
-    pacLife[5] = 5;
+    pacLife[5] = 10;
 }
 
 function resetGame() {
