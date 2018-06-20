@@ -432,12 +432,114 @@ function Pacman(x, y, dx, dy, radius) {
     } else if (queueMove == 3 && this.checkMove(map.array[this.getNextPos(this.y, this.dy, this.radius)][this.getThisPos(this.x)])) {
       setDirection(3, -1.5, 0.5);
     }
-  }
+    this.getThisPos = function(pos)
+    {
+        return (pos - (pos % tileSize)) / tileSize;
+    }       
 
-  this.checkMove = function(ar) {
-    var check = false;
-    if (ar == pellet || ar == space) {
-      check = true;
+    this.pacPos = [this.getThisPos(this.x), this.getThisPos(this.y)];
+    this.nextPos = [this.getNextPos(this.x, -this.dx, this.radius), this.getThisPos(this.y)];
+
+    //Pac-Man's current location
+
+	this.draw = function()
+	{
+		var fltOpen = pctOpen / 100;
+
+		c.beginPath();
+
+        // Pacman Body and mouth
+        // .2 is how far the mouth opens. 1 would be a complete open and close of the mouth, to the back of the body.
+		c.arc(this.x, this.y, this.radius, (mouthT + fltOpen * .2) * Math.PI, (mouthB - fltOpen * .2) * Math.PI);
+		c.lineTo(this.x, this.y);
+    	c.closePath();
+
+    	// Pacman 
+		c.strokeStyle = 'black';
+		c.stroke();
+		c.fillStyle = '#fdff00';
+		c.fill();
+	}
+
+	this.update = function()
+	{
+		// Mouth opening stuff
+		var pad = 0;
+		pctOpen += dir;
+
+		//Wall collision stuff
+        var oneMoreMove = true;
+        
+		if(directions[0] || directions[2])
+		{ 
+			if(map.array[this.nextPos[1]][this.nextPos[0]] != 10 && map.array[this.nextPos[1]][this.nextPos[0]] != 99)
+			{
+                if(directions[0])
+                {
+                    directions[0] = false;
+                }
+                else if(directions[2])
+                {
+                    directions[2] = false;
+                }
+                this.x = this.pacPos[0] * tileSize + this.radius;
+			}
+
+		}
+		else if( directions[1] || directions[3])
+		{
+            if(map.array[this.nextPos[1]][this.nextPos[0]] != 10 && map.array[this.nextPos[1]][this.nextPos[0]] != 99 )
+            {
+                if(directions[1])
+                {
+                    console.log(this.pacPos + ', ' + this.nextPos);
+                    console.log(map.array[this.nextPos[1]][this.nextPos[0]]);
+                    directions[1] = false;
+                    console.log(directions);
+                }
+                else if(directions[3])
+                {
+                    directions[3] = false;
+                }
+                this.y = this.pacPos[1] * tileSize + this.radius;
+            }
+
+		}
+
+		
+		this.move();
+		if (pctOpen % 100 == 0) {
+	      	dir = -dir;
+	    }
+
+		this.draw();
+
+        if(queueMove == 0 && this.checkMove(map.array[this.getThisPos(this.y)][this.getNextPos(this.x, 0-this.dx, 0 - this.radius)]))
+        {
+            setDirection(0, -1.0, 1.0);
+        }
+        else if(queueMove == 1 && this.checkMove(map.array[this.getNextPos(this.y, 0-this.dy, 0 - this.radius)][this.getThisPos(this.x)]))
+        {
+            setDirection(1, -0.5, 1.5);
+        }
+        else if(queueMove == 2 && this.checkMove(map.array[this.getThisPos(this.y)][this.getNextPos(this.x, this.dx, this.radius)]))
+        {
+            setDirection(2, 0, 2.0);
+        }
+        else if(queueMove == 3 && this.checkMove(map.array[this.getNextPos(this.y, this.dy, this.radius)][this.getThisPos(this.x)]))
+        {
+            setDirection(3, -1.5, 0.5);
+        }
+	}
+
+    this.checkMove = function(ar)
+    {
+        var check = false;
+        if(ar == 10 || ar == 99)
+        {
+            check = true;
+        }
+        return check;
     }
     return check;
   }
